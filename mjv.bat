@@ -18,17 +18,20 @@ if not exist "%folder%" (
     goto :end
 )
 echo Available Java versions:
-for /d %%D in ("%folder%\*") do echo   %%~nxD
+for /d %%D in ("%folder%\*") do (
+    if exist "%%D\bin\java.exe" echo   %%~nxD
+)
 goto :end
 
 :use
-if "%second%"=="" (
-    echo Error: Please specify a Java version. Use `mybat list` to see available versions.
+:: Check if the second argument is provided
+if "%~2"=="" (
+    echo Error: Please specify a Java version. Use `mjv list` to see available versions.
     goto :end
 )
-set "java_path=C:\Program Files\Java\%second%"
+set "java_path=C:\Program Files\Java\%~2"
 if not exist "%java_path%\bin\java.exe" (
-    echo Error: Java version "%second%" not found in %java_path%.
+    echo Error: Java version "%~2" not found in %java_path%.
     goto :end
 )
 
@@ -43,29 +46,30 @@ setx PATH "%java_path%\bin!NEW_PATH!" >nul
 :: Set JAVA_HOME
 setx JAVA_HOME "%java_path%" >nul
 
-echo Now using Java version: %second%
+echo Now using Java version: %~2
 echo Note: Restart your terminal for changes to take effect.
 goto :end
 
+:end
 
 :used
 java -version
 goto :end
 
 :help
-echo Usage: mybat [command] [arguments]
+echo Usage: mjv [command] [arguments]
 echo.
 echo Commands:
 echo   list         - Display available Java versions in C:\Program Files\Java
 echo   use [name]   - Set JAVA_HOME and update PATH for the specified Java version
-echo                  Example: mybat use jdk-17
+echo                  Example: mjv use jdk-17
 echo   used         - Show the currently active Java version
 echo   --help       - Show this help message
 echo.
 goto :end
 
 :unknown
-echo Error: Unknown command. Use `mybat --help` for usage information.
+echo Error: Unknown command. Use `mjv --help` for usage information.
 
 :end
 exit /b
