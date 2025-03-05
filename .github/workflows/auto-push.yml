@@ -43,13 +43,13 @@ jobs:
         env:
           TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}  # Use a secure token for authentication
         run: |
-          git remote set-url origin https://$TOKEN@github.com/PushpaKumara89/test.git  # Set the remote URL
-          git fetch origin release || echo "Release branch doesn't exist yet"  # Fetch the release branch if it exists
-          git checkout release || git checkout -b release  # Switch to the release branch or create it
-          git checkout main -- JavaVersionManager.exe || echo "File not found in main"  # Checkout the EXE file from main
-          git add JavaVersionManager.exe  # Stage the EXE file
-          git commit -m "Add JavaVersionManager.exe from main" || echo "No changes to commit"  # Commit changes if any
-          git push origin release || echo "Push failed"  # Push changes to the release branch
+          git remote set-url origin https://$TOKEN@github.com/PushpaKumara89/test.git
+          git checkout -b release || git checkout release
+          cp ./JavaVersionManager.exe ./  # Ensure the EXE file is at the root level
+          git add JavaVersionManager.exe
+          git commit -m "Add JavaVersionManager.exe from main" || echo "No changes to commit"
+          git push -u origin release || echo "Push failed"
+
 
       # Debugging: Verify the files in the release branch
       - name: Debugging - List Files in Release Branch
