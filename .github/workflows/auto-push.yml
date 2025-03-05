@@ -45,11 +45,9 @@ jobs:
         run: |
           git remote set-url origin https://$TOKEN@github.com/PushpaKumara89/test.git
           git checkout -b release || git checkout release
-          cp ./JavaVersionManager.exe ./  # Ensure the EXE file is at the root level
           git add JavaVersionManager.exe
           git commit -m "Add JavaVersionManager.exe from main" || echo "No changes to commit"
           git push -u origin release || echo "Push failed"
-
 
       # Debugging: Verify the files in the release branch
       - name: Debugging - List Files in Release Branch
