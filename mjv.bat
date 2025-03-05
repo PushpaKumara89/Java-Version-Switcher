@@ -35,22 +35,29 @@ if not exist "%java_path%\bin\java.exe" (
     goto :end
 )
 
-:: Remove old Java paths
+:: Remove old Java paths from user-level PATH
 for /f "tokens=2,*" %%A in ('reg query "HKCU\Environment" /v Path 2^>nul') do set "CURRENT_PATH=%%B"
 set "NEW_PATH="
 for %%P in (%CURRENT_PATH:;=%) do (
     echo %%P | findstr /i /c:"C:\Program Files\Java" >nul || set "NEW_PATH=!NEW_PATH!;%%P"
 )
-setx PATH "%java_path%\bin!NEW_PATH!" >nul
 
-:: Set JAVA_HOME
-setx JAVA_HOME "%java_path%" >nul
+:: Set user-level PATH and JAVA_HOME
+setx PATH "%NEW_PATH%;%java_path%\bin"
+if %errorlevel% neq 0 (
+    echo Error: Failed to set PATH.
+    goto :end
+)
+setx JAVA_HOME "%java_path%"
+if %errorlevel% neq 0 (
+    echo Error: Failed to set JAVA_HOME.
+    goto :end
+)
 
 echo Now using Java version: %~2
 echo Note: Restart your terminal for changes to take effect.
 goto :end
 
-:end
 
 :used
 java -version
