@@ -25,7 +25,6 @@ for /d %%D in ("%folder%\*") do (
     ) else (
         echo    %%~nxD
     )   
-    
 )
 goto :end
 
@@ -41,15 +40,25 @@ if not exist "%java_path%\bin\java.exe" (
     goto :end
 )
 
-:: Remove old Java paths
+:: Get current PATH safely
 for /f "tokens=2,*" %%A in ('reg query "HKCU\Environment" /v Path 2^>nul') do set "CURRENT_PATH=%%B"
-set "NEW_PATH="
-for %%P in (%CURRENT_PATH:;=%) do (
-    echo %%P | findstr /i /c:"C:\Program Files\Java" >nul || set "NEW_PATH=!NEW_PATH!;%%P"
-)
-setx PATH "%java_path%\bin!NEW_PATH!" >nul
 
-:: Set JAVA_HOME
+:: Use a new variable for the filtered PATH
+set "NEW_PATH="
+
+:: Process PATH safely, handling special characters
+for %%P in ("%CURRENT_PATH:;=" "%") do (
+    echo %%P | findstr /i /c:"C:\Program Files\Java" >nul || set "NEW_PATH=!NEW_PATH!;%%~P"
+)
+
+:: Trim leading semicolon if present
+if "!NEW_PATH:~0,1!"==";" set "NEW_PATH=!NEW_PATH:~1!"
+
+:: Set PATH for the current session
+set "PATH=%java_path%\bin;%NEW_PATH%"
+
+:: Update system PATH and JAVA_HOME
+setx PATH "%PATH%" >nul
 setx JAVA_HOME "%java_path%" >nul
 
 echo Now using Java version: %~2
@@ -57,7 +66,14 @@ echo Note: Restart your terminal for changes to take effect.
 goto :end
 
 :used
-java -version
+:: Check Java version
+java -version 2>nul
+if errorlevel 1 (
+    echo Java is not configured properly or not installed.
+) else (
+    echo Active Java version:
+    java -version
+)
 goto :end
 
 :help
