@@ -32,7 +32,7 @@ goto :end
 :use
 :: Check if the second argument is provided
 if "%~2"=="" (
-    echo Error: Please specify a Java version. Use `mybat list` to see available versions.
+    echo Error: Please specify a Java version. Use `jvs list` to see available versions.
     goto :end
 )
 set "java_path=C:\Program Files\Java\%~2"
@@ -61,19 +61,19 @@ java -version
 goto :end
 
 :help
-echo Usage: mybat [command] [arguments]
+echo Usage: jvs [command] [arguments]
 echo.
 echo Commands:
 echo   list         - Display available Java versions in C:\Program Files\Java
 echo   use [name]   - Set JAVA_HOME and update PATH for the specified Java version
-echo                  Example: mybat use jdk-17
+echo                  Example: jvs use jdk-17
 echo   used         - Show the currently active Java version
 echo   --help       - Show this help message
 echo.
 goto :end
 
 :unknown
-echo Error: Unknown command. Use `mybat --help` for usage information.
+echo Error: Unknown command. Use `jvs --help` for usage information.
 
 :end
 exit /b

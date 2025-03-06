@@ -1,23 +1,23 @@
 [Setup]
-AppName=JavaVersionManager
+AppName=JavaVersionSwitcher
 AppVersion=1.0
 DefaultDirName=C:\Program Files\Java
-DefaultGroupName=JavaVersionManager
+DefaultGroupName=JavaVersionSwitcher
 OutputDir=.
-OutputBaseFilename=JavaVersionManager
+OutputBaseFilename=JavaVersionSwitcher
 Compression=lzma
 SolidCompression=yes
 CloseApplications=yes
 RestartIfNeededByRun=false
 
 [Files]
-Source: "mjv.bat"; DestDir: "{app}"; Flags: ignoreversion
+Source: "jvs.bat"; DestDir: "{app}"; Flags: ignoreversion
 
 [Registry]
 Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; ValueType: string; ValueName: "JAVA_VM"; ValueData: "C:\Program Files\Java"; Flags: preservestringtype
 
 [Icons]
-Name: "{group}\JavaVersionManager"; Filename: "{app}\mjv.bat"
+Name: "{group}\JavaVersionSwitcher"; Filename: "{app}\jvs.bat"
 
 [Run]
 Filename: "{cmd}"; Parameters: "/C setx PATH ""%PATH%;C:\Program Files\Java"" /M"; Flags: runhidden waituntilterminated
