@@ -27,7 +27,7 @@ Available Java versions:
 
 ### 2️⃣ Switch to a specific Java version
 ```sh
-jvs use jdk-17 
+jvs use jdk-17
 ```
 This will:
 - Set `JAVA_HOME` to `C:\Program Files\Java\jdk-17`
