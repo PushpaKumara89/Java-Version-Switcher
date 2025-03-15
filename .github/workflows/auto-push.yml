@@ -44,10 +44,10 @@ jobs:
           TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}  # Use a secure token for authentication
         run: |
           git remote set-url origin https://$TOKEN@github.com/PushpaKumara89/Java-Version-Switcher.git
-          git checkout -b release1.0.1 || git checkout release1.0.1
+          git checkout -b release1.0.2 || git checkout release1.0.2
           git add JavaVersionSwitcher.exe
           git commit -m "Add JavaVersionSwitcher.exe from main" || echo "No changes to commit"
-          git push -u origin release1.0.1 || echo "Push failed"
+          git push -u origin release1.0.2 || echo "Push failed"
 
       # Debugging: Verify the files in the release branch
       - name: Debugging - List Files in Release Branch

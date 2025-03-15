@@ -21,3 +21,6 @@ Name: "{group}\JavaVersionSwitcher"; Filename: "{app}\jvs.bat"
 
 [Run]
 Filename: "{cmd}"; Parameters: "/C setx PATH ""%PATH%;C:\Program Files\Java"" /M"; Flags: runhidden waituntilterminated
+
+[UninstallRun]
+Filename: "{cmd}"; Parameters: "/C setx PATH ""%PATH:C:\Program Files\Java;=%"" /M"; Flags: runhidden waituntilterminated

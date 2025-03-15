@@ -92,4 +92,4 @@ goto :end
 echo Error: Unknown command. Use `jvs --help` for usage information.
 
 :end
-exit /b
+exit /b 
